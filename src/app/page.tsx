@@ -52,8 +52,8 @@ const SUBSYSTEMS: Subsystem[] = [
     label: "Bản đồ số & Tri thức",
     shortLabel: "Bản đồ",
     icon: Map,
-    description: "Lớp phủ bản đồ vùng kinh tế + đồ thị tri thức không gian",
-    url: process.env.NEXT_PUBLIC_MAP_URL ?? "",
+    description: "Bản đồ số quốc gia + lớp phủ tri thức không gian",
+    url: process.env.NEXT_PUBLIC_MAP_URL ?? "https://cosodulieu.bando.com.vn/",
   },
 ];
 
@@ -121,9 +121,9 @@ export default function HubPage() {
           <iframe
             key={current.id}
             src={current.url}
-            className="portal-frame"
+            className="portal-frame w-full h-full min-h-[calc(100vh-80px)] border-0"
             title={current.label}
-            allow="clipboard-write"
+            allow="geolocation; fullscreen; clipboard-read; clipboard-write"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
             loading="lazy"
           />

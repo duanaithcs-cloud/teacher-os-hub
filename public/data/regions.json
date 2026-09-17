@@ -1,0 +1,636 @@
+{
+  "title": "B?n ?? s? ??a l? 9: C?c v?ng kinh t? Vi?t Nam",
+  "version": "0.1.0-mvp",
+  "dataStatus": "MVP_TEACHER_REVIEW_REQUIRED",
+  "sourceNotes": [
+    "N?i dung n?n l?y t? kho Teacher OS ?? chu?n h?a: LOP_9_C3_normalized.md v? LOP_9_C2_normalized.md.",
+    "M?t s? ph?m vi h?nh ch?nh sau 7/2025 ?? ???c ghi theo ngu?n ??c ???c; c?c v?ng c?n l?i c?n Anh Ti?n/SGK x?c nh?n tr??c b?n ch?nh th?c.",
+    "Ranh gi?i b?n ?? ?? thay b?ng geoBoundaries VNM ADM1 simplified GeoJSON, Public Domain, boundary year represented 2008, admUnitCount 64; b?n ?? t? m?u theo nh?m t?nh/th?nh c?a v?ng h?c ph? th?ng.",
+    "Do ngu?n ADM1 hi?n l? ranh gi?i t?nh/th?nh tr??c c?p nh?t s?p nh?p 2025, ph?n ph?m vi 7/2025 trong th? h?c t?p ???c gi? nh? ghi ch? n?i dung v? c?n ??i chi?u khi c? GeoJSON h?nh ch?nh ch?nh th?c m?i.",
+    "B?n 0.2 d?ng m? shapeISO ?? gh?p t?nh/th?nh v?o v?ng, tr?nh l?i m? h?a d?u ti?ng Vi?t khi x? l? GeoJSON."
+  ],
+  "regions": [
+    {
+      "id": "tdmn_bac_bo",
+      "name": "Trung du v? mi?n n?i B?c B?",
+      "shortName": "TDMN B?c B?",
+      "color": "#2563eb",
+      "center": [
+        22.15,
+        104.2
+      ],
+      "zoom": 7,
+      "areaNote": "Kho?ng 92.517,4 km?; chi?m 27,9% di?n t?ch c? n??c (n?m 2024 theo ngu?n Teacher OS ?? chu?n h?a).",
+      "scope2025": "T? 7/2025 g?m: L?ng S?n, Cao B?ng, Th?i Nguy?n, Tuy?n Quang, Ph? Th?, L?o Cai, Lai Ch?u, ?i?n Bi?n, S?n La.",
+      "position": "Ph?a B?c n??c ta; gi?p Trung Qu?c, Th??ng L?o, ??ng b?ng s?ng H?ng v? B?c Trung B?.",
+      "strengths": [
+        "Th?y ?i?n l?n nh?t c? n??c",
+        "Kho?ng s?n ?a d?ng",
+        "C?y c?ng nghi?p/c?y ?n qu?/c?y d??c li?u c?n nhi?t v? ?n ??i",
+        "L?m nghi?p v? du l?ch sinh th?i - v?n h?a"
+      ],
+      "centers": [
+        "Th?i Nguy?n",
+        "Vi?t Tr?",
+        "H?a B?nh",
+        "B?c Giang/B?c Ninh theo c?p nh?t h?nh ch?nh"
+      ],
+      "keywords": [
+        "th?y ?i?n",
+        "kho?ng s?n",
+        "ch?",
+        "d??c li?u",
+        "du l?ch sinh th?i",
+        "c?a kh?u"
+      ],
+      "challenges": [
+        "??a h?nh chia c?t",
+        "D?n c? ph?n b? th?a",
+        "H? t?ng c?n ch?nh l?ch",
+        "Nguy c? suy tho?i r?ng v? thi?n tai mi?n n?i"
+      ],
+      "learningPrompt": "V? sao v?ng n?y c? th? m?nh ??c bi?t v? th?y ?i?n v? c?y tr?ng c?n nhi?t/?n ??i?",
+      "geometry": [
+        [
+          23.35,
+          102.1
+        ],
+        [
+          23.25,
+          106.5
+        ],
+        [
+          22.05,
+          107.2
+        ],
+        [
+          20.85,
+          105.2
+        ],
+        [
+          20.55,
+          103.2
+        ],
+        [
+          21.55,
+          102.0
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-03",
+        "VN-04",
+        "VN-53",
+        "VN-07",
+        "VN-02",
+        "VN-06",
+        "VN-69",
+        "VN-09",
+        "VN-54",
+        "VN-68",
+        "VN-71",
+        "VN-01",
+        "VN-05",
+        "VN-14"
+      ]
+    },
+    {
+      "id": "db_song_hong",
+      "name": "??ng b?ng s?ng H?ng",
+      "shortName": "?BSH",
+      "color": "#dc2626",
+      "center": [
+        20.75,
+        106.15
+      ],
+      "zoom": 8,
+      "areaNote": "Kho?ng 23,9 ngh?n km?; chi?m 7,2% di?n t?ch c? n??c.",
+      "scope2025": "T? 7/2025 g?m: H? N?i, H?i Ph?ng, Ninh B?nh, H?ng Y?n, B?c Ninh, Qu?ng Ninh.",
+      "position": "C?a ng? ra bi?n c?a Trung du mi?n n?i B?c B?; c? Th? ?? H? N?i, H?i Ph?ng, Qu?ng Ninh v? v?ng kinh t? tr?ng ?i?m B?c B?.",
+      "strengths": [
+        "D?n c? ??ng, lao ??ng ch?t l??ng cao",
+        "C?ng nghi?p - d?ch v? ph?t tri?n",
+        "Giao th?ng k?t n?i thu?n l?i",
+        "Kinh t? bi?n, c?ng bi?n, du l?ch"
+      ],
+      "centers": [
+        "H? N?i",
+        "H?i Ph?ng",
+        "H? Long",
+        "B?c Ninh",
+        "Ninh B?nh"
+      ],
+      "keywords": [
+        "m?t ?? d?n s? cao",
+        "lao ??ng tr?nh ?? cao",
+        "c?ng bi?n",
+        "d?ch v?",
+        "v?ng ??ng l?c"
+      ],
+      "challenges": [
+        "S?c ?p d?n s?",
+        "? nhi?m m?i tr??ng",
+        "Qu? ??t h?n ch?",
+        "C?nh tranh lao ??ng v? h? t?ng ?? th?"
+      ],
+      "learningPrompt": "V? sao ??ng b?ng s?ng H?ng v?a l? v?ng d?n c? ??ng nh?t, v?a l? ??ng l?c kinh t? quan tr?ng ? ph?a B?c?",
+      "geometry": [
+        [
+          21.55,
+          105.0
+        ],
+        [
+          21.35,
+          107.3
+        ],
+        [
+          20.6,
+          107.5
+        ],
+        [
+          19.85,
+          106.0
+        ],
+        [
+          20.15,
+          104.9
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-HN",
+        "VN-HP",
+        "VN-61",
+        "VN-66",
+        "VN-56",
+        "VN-70",
+        "VN-13",
+        "VN-20",
+        "VN-63",
+        "VN-67",
+        "VN-18"
+      ]
+    },
+    {
+      "id": "btb_dhmt",
+      "name": "B?c Trung B? v? Duy?n h?i mi?n Trung",
+      "shortName": "BTB & DHMT",
+      "color": "#f97316",
+      "center": [
+        15.7,
+        108.2
+      ],
+      "zoom": 6,
+      "areaNote": "D?i l?nh th? k?o d?i theo h??ng B?c - Nam; b?n MVP d?ng nh?m v?ng theo ch??ng tr?nh h?c, c?n ch?t l?i t?n/ph?m vi theo SGK anh d?ng.",
+      "scope2025": "C?n ??i chi?u SGK/Ph? l?c I v? c?p nh?t h?nh ch?nh m?i khi build b?n ch?nh th?c.",
+      "position": "C?u n?i B?c - Nam, ph?a ??ng gi?p Bi?n ??ng, ph?a t?y gi?p L?o; c? nhi?u c?a kh?u, c?ng bi?n v? ?? th? ven bi?n.",
+      "strengths": [
+        "Kinh t? bi?n",
+        "Du l?ch bi?n - di s?n",
+        "C?ng bi?n v? logistics",
+        "L?m nghi?p, th?y s?n",
+        "N?ng l??ng t?i t?o ? m?t s? khu v?c"
+      ],
+      "centers": [
+        "Thanh H?a",
+        "Vinh",
+        "Hu?",
+        "?? N?ng",
+        "Quy Nh?n",
+        "Nha Trang"
+      ],
+      "keywords": [
+        "bi?n",
+        "du l?ch",
+        "c?ng bi?n",
+        "h?nh lang ??ng - T?y",
+        "b?o l?"
+      ],
+      "challenges": [
+        "Thi?n tai b?o l?",
+        "??t h?p ngang",
+        "Kh? h?n c?c b?",
+        "Li?n k?t v?ng c?n c?n t?ng c??ng"
+      ],
+      "learningPrompt": "T?i sao d?i duy?n h?i mi?n Trung c? vai tr? c?u n?i B?c - Nam v? c?a ng? ra bi?n cho m?t s? khu v?c?",
+      "geometry": [
+        [
+          19.9,
+          105.7
+        ],
+        [
+          19.2,
+          106.5
+        ],
+        [
+          17.2,
+          107.6
+        ],
+        [
+          15.8,
+          108.4
+        ],
+        [
+          13.5,
+          109.2
+        ],
+        [
+          11.5,
+          109.1
+        ],
+        [
+          11.2,
+          108.3
+        ],
+        [
+          13.6,
+          107.8
+        ],
+        [
+          16.1,
+          106.8
+        ],
+        [
+          18.4,
+          105.3
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-21",
+        "VN-22",
+        "VN-23",
+        "VN-24",
+        "VN-25",
+        "VN-26",
+        "VN-DN",
+        "VN-27",
+        "VN-29",
+        "VN-31",
+        "VN-32",
+        "VN-34",
+        "VN-36",
+        "VN-40"
+      ]
+    },
+    {
+      "id": "tay_nguyen",
+      "name": "T?y Nguy?n",
+      "shortName": "T?y Nguy?n",
+      "color": "#16a34a",
+      "center": [
+        13.2,
+        108.0
+      ],
+      "zoom": 7,
+      "areaNote": "V?ng cao nguy?n ph?a t?y mi?n Trung; c?n g?n d? li?u ch?nh th?c khi ho?n thi?n.",
+      "scope2025": "C?n ??i chi?u c?p nh?t h?nh ch?nh; b?n h?c ph? th?ng th??ng g?m Kon Tum, Gia Lai, ??k L?k, ??k N?ng, L?m ??ng theo c?ch chia c?.",
+      "position": "N?m tr?n h? th?ng cao nguy?n r?ng l?n, gi?p L?o v? Campuchia, c? v? tr? chi?n l??c v? kinh t? - qu?c ph?ng.",
+      "strengths": [
+        "C?y c?ng nghi?p l?u n?m",
+        "C? ph?, cao su, h? ti?u, ch?",
+        "Th?y ?i?n",
+        "Du l?ch sinh th?i - v?n h?a c?ng chi?ng"
+      ],
+      "centers": [
+        "Pleiku",
+        "Bu?n Ma Thu?t",
+        "?? L?t"
+      ],
+      "keywords": [
+        "cao nguy?n",
+        "??t badan",
+        "c? ph?",
+        "th?y ?i?n",
+        "v?n h?a c?ng chi?ng"
+      ],
+      "challenges": [
+        "M?a kh? s?u s?c",
+        "Suy gi?m r?ng",
+        "Thi?u n??c c?c b?",
+        "Bi?n ??ng gi? n?ng s?n"
+      ],
+      "learningPrompt": "V? sao ??t badan v? kh? h?u cao nguy?n t?o th? m?nh c?y c?ng nghi?p l?u n?m cho T?y Nguy?n?",
+      "geometry": [
+        [
+          15.3,
+          107.2
+        ],
+        [
+          14.4,
+          108.0
+        ],
+        [
+          13.2,
+          108.4
+        ],
+        [
+          11.8,
+          108.5
+        ],
+        [
+          11.2,
+          107.6
+        ],
+        [
+          12.2,
+          107.0
+        ],
+        [
+          13.8,
+          107.1
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-28",
+        "VN-30",
+        "VN-33",
+        "VN-72",
+        "VN-35"
+      ]
+    },
+    {
+      "id": "dong_nam_bo",
+      "name": "??ng Nam B?",
+      "shortName": "??ng Nam B?",
+      "color": "#7c3aed",
+      "center": [
+        11.05,
+        106.65
+      ],
+      "zoom": 8,
+      "areaNote": "V?ng kinh t? ??ng l?c ph?a Nam; c?n c?p nh?t ph?m vi theo ph?n v?ng m?i khi ch?t b?n ch?nh th?c.",
+      "scope2025": "B?n h?c ph? th?ng th??ng g?n v?i TP.HCM, B?nh D??ng, ??ng Nai, B? R?a - V?ng T?u, T?y Ninh, B?nh Ph??c theo c?ch chia c?; c?n r? l?i h?nh ch?nh m?i.",
+      "position": "C?a ng? ph?a Nam, k?t n?i T?y Nguy?n, ??ng b?ng s?ng C?u Long, Campuchia v? Bi?n ??ng.",
+      "strengths": [
+        "C?ng nghi?p v? d?ch v? ph?t tri?n m?nh",
+        "Trung t?m t?i ch?nh - th??ng m?i",
+        "C?ng bi?n, logistics",
+        "Thu h?t ??u t? v? lao ??ng"
+      ],
+      "centers": [
+        "TP. H? Ch? Minh",
+        "Bi?n H?a",
+        "Th? D?u M?t",
+        "V?ng T?u"
+      ],
+      "keywords": [
+        "v?ng ??ng l?c",
+        "c?ng nghi?p",
+        "d?ch v?",
+        "logistics",
+        "c?ng bi?n",
+        "?? th? h?a"
+      ],
+      "challenges": [
+        "?p l?c ?? th? h?a",
+        "? nhi?m m?i tr??ng",
+        "Qu? t?i h? t?ng",
+        "Thi?u lao ??ng ch?t l??ng cao ? m?t s? ng?nh"
+      ],
+      "learningPrompt": "V? sao ??ng Nam B? ???c xem l? m?t v?ng kinh t? ??ng l?c quan tr?ng c?a c? n??c?",
+      "geometry": [
+        [
+          12.2,
+          106.2
+        ],
+        [
+          11.8,
+          107.5
+        ],
+        [
+          10.6,
+          107.4
+        ],
+        [
+          10.3,
+          106.5
+        ],
+        [
+          10.8,
+          105.8
+        ],
+        [
+          11.8,
+          105.7
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-58",
+        "VN-37",
+        "VN-57",
+        "VN-39",
+        "VN-43",
+        "VN-SG"
+      ]
+    },
+    {
+      "id": "db_song_cuu_long",
+      "name": "??ng b?ng s?ng C?u Long",
+      "shortName": "?BSCL",
+      "color": "#0891b2",
+      "center": [
+        10.05,
+        105.55
+      ],
+      "zoom": 7,
+      "areaNote": "V?ng h? l?u s?ng M? C?ng; trung t?m l?n v? l?a g?o, th?y s?n, c?y ?n qu?.",
+      "scope2025": "C?n ??i chi?u h?nh ch?nh m?i; b?n h?c ph? th?ng th??ng g?m c?c t?nh/th?nh v?ng ch?u th? s?ng C?u Long theo c?ch chia c?.",
+      "position": "N?m ? c?c Nam ??t n??c, gi?p Campuchia, Bi?n ??ng v? v?nh Th?i Lan; m?ng l??i s?ng ng?i, k?nh r?ch d?y ??c.",
+      "strengths": [
+        "L?a g?o",
+        "Th?y s?n nu?i tr?ng",
+        "C?y ?n qu? nhi?t ??i",
+        "Kinh t? s?ng n??c v? bi?n"
+      ],
+      "centers": [
+        "C?n Th?",
+        "Long Xuy?n",
+        "M? Tho",
+        "C? Mau"
+      ],
+      "keywords": [
+        "l?a g?o",
+        "th?y s?n",
+        "s?ng M? C?ng",
+        "c?y ?n qu?",
+        "x?m nh?p m?n"
+      ],
+      "challenges": [
+        "Bi?n ??i kh? h?u",
+        "X?m nh?p m?n",
+        "S?t l?n",
+        "Thi?u li?n k?t h? t?ng giao th?ng"
+      ],
+      "learningPrompt": "T?i sao ??ng b?ng s?ng C?u Long l? v?ng tr?ng ?i?m l?a g?o v? th?y s?n nh?ng ch?u nhi?u th?ch th?c do bi?n ??i kh? h?u?",
+      "geometry": [
+        [
+          10.9,
+          104.7
+        ],
+        [
+          10.8,
+          106.3
+        ],
+        [
+          9.7,
+          106.6
+        ],
+        [
+          8.6,
+          105.1
+        ],
+        [
+          9.4,
+          104.4
+        ]
+      ],
+      "geometryStatus": "STANDARD_ADM1_BOUNDARY_BY_ISO__geoBoundaries_VNM_ADM1_simplified",
+      "provinceIsoGeoBoundariesADM1": [
+        "VN-41",
+        "VN-46",
+        "VN-50",
+        "VN-51",
+        "VN-49",
+        "VN-45",
+        "VN-44",
+        "VN-47",
+        "VN-CT",
+        "VN-73",
+        "VN-52",
+        "VN-55",
+        "VN-59"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "V?ng n?o c? tr? n?ng th?y ?i?n l?n nh?t n??c ta?",
+      "options": [
+        "??ng b?ng s?ng H?ng",
+        "Trung du v? mi?n n?i B?c B?",
+        "??ng Nam B?",
+        "??ng b?ng s?ng C?u Long"
+      ],
+      "answer": 1,
+      "explain": "??a h?nh n?i cao, s?ng ng?i d?c v? chia c?t m?nh t?o tr? n?ng th?y ?i?n l?n."
+    },
+    {
+      "q": "V?ng n?o c? m?t ?? d?n s? cao nh?t c? n??c theo ngu?n ?? chu?n h?a?",
+      "options": [
+        "T?y Nguy?n",
+        "??ng b?ng s?ng H?ng",
+        "B?c Trung B? v? Duy?n h?i mi?n Trung",
+        "??ng Nam B?"
+      ],
+      "answer": 1,
+      "explain": "??ng b?ng s?ng H?ng c? d?n c? t?p trung ??ng, lao ??ng d?i d?o v? tr?nh ?? cao."
+    },
+    {
+      "q": "C?y c?ng nghi?p l?u n?m nh? c? ph?, cao su, h? ti?u g?n n?i b?t v?i v?ng n?o?",
+      "options": [
+        "T?y Nguy?n",
+        "??ng b?ng s?ng C?u Long",
+        "??ng b?ng s?ng H?ng",
+        "Trung du v? mi?n n?i B?c B?"
+      ],
+      "answer": 0,
+      "explain": "T?y Nguy?n c? ??t badan v? kh? h?u cao nguy?n thu?n l?i cho c?y c?ng nghi?p l?u n?m."
+    },
+    {
+      "q": "V?ng n?o n?i b?t v?i vai tr? trung t?m c?ng nghi?p - d?ch v? v? logistics ph?a Nam?",
+      "options": [
+        "??ng Nam B?",
+        "T?y Nguy?n",
+        "Trung du mi?n n?i B?c B?",
+        "??ng b?ng s?ng C?u Long"
+      ],
+      "answer": 0,
+      "explain": "??ng Nam B? c? TP.HCM, h? th?ng c?ng nghi?p, c?ng bi?n v? d?ch v? ph?t tri?n m?nh."
+    },
+    {
+      "q": "V?ng n?o l? tr?ng ?i?m l?a g?o, th?y s?n v? c?y ?n qu? nhi?t ??i?",
+      "options": [
+        "??ng b?ng s?ng C?u Long",
+        "??ng b?ng s?ng H?ng",
+        "T?y Nguy?n",
+        "B?c Trung B? v? Duy?n h?i mi?n Trung"
+      ],
+      "answer": 0,
+      "explain": "?BSCL c? m?ng l??i s?ng ng?i, k?nh r?ch d?y ??c, ??t ph? sa v? th? m?nh n?ng - th?y s?n."
+    },
+    {
+      "q": "Th?ch th?c ti?u bi?u c?a ??ng b?ng s?ng C?u Long hi?n nay l? g??",
+      "options": [
+        "Tuy?t r?i k?o d?i",
+        "X?m nh?p m?n v? s?t l?n",
+        "Thi?u c?ng bi?n ho?n to?n",
+        "Kh?ng c? s?ng ng?i"
+      ],
+      "answer": 1,
+      "explain": "Bi?n ??i kh? h?u, x?m nh?p m?n, s?t l?n v? h? t?ng l? c?c v?n ?? l?n c?a v?ng."
+    },
+    {
+      "q": "V?ng n?o c? l?i th? n?i b?t v? c?ng bi?n, du l?ch bi?n - di s?n v? h?nh lang ??ng - T?y?",
+      "options": [
+        "B?c Trung B? v? Duy?n h?i mi?n Trung",
+        "T?y Nguy?n",
+        "??ng b?ng s?ng H?ng",
+        "Trung du mi?n n?i B?c B?"
+      ],
+      "answer": 0,
+      "explain": "D?i duy?n h?i mi?n Trung k?o d?i ven bi?n, c? nhi?u c?ng, ?? th? bi?n v? di s?n."
+    },
+    {
+      "q": "??ng Nam B? c? kh? kh?n n?i b?t n?o do ph?t tri?n nhanh?",
+      "options": [
+        "Qu? t?i h? t?ng v? ? nhi?m m?i tr??ng",
+        "Kh?ng c? ?? th? l?n",
+        "Kh?ng c? giao th?ng",
+        "Kh?ng c? lao ??ng"
+      ],
+      "answer": 0,
+      "explain": "?? th? h?a v? c?ng nghi?p h?a nhanh t?o ?p l?c l?n l?n h? t?ng, m?i tr??ng v? d?ch v? ?? th?."
+    },
+    {
+      "q": "Trung du v? mi?n n?i B?c B? c? th? m?nh n?ng nghi?p ??c bi?t n?o?",
+      "options": [
+        "C?y c?ng nghi?p c?n nhi?t, c?y ?n qu?, d??c li?u",
+        "L?a n??c quanh n?m tr?n ??ng b?ng ch?u th? l?n",
+        "D?a v? m?a ven bi?n nhi?t ??i",
+        "Nu?i t?m n??c l? quy m? l?n nh?t"
+      ],
+      "answer": 0,
+      "explain": "Kh? h?u ph?n h?a theo ?? cao, c? m?a ??ng l?nh v? ??t ??i n?i t?o th? m?nh c?y c?n nhi?t/?n ??i."
+    },
+    {
+      "q": "M?c ti?u h?c b?n ?? s? kh?ng ch? l? xem v? tr? m? c?n ?? l?m g??",
+      "options": [
+        "Ghi nh? m?y m?c",
+        "Ph?n t?ch quan h? kh?ng gian v? so s?nh v?ng",
+        "Thay ho?n to?n SGK",
+        "B? qua ngu?n d? li?u"
+      ],
+      "answer": 1,
+      "explain": "B?n ?? s? gi?p h?c sinh ??c b?n ??, so s?nh v?ng, gi?i th?ch th? m?nh - h?n ch? theo kh?ng gian."
+    }
+  ],
+  "tasks": [
+    "X?c ??nh tr?n b?n ?? v?ng c? th? m?nh th?y ?i?n l?n nh?t.",
+    "Ch?n hai v?ng v? so s?nh th? m?nh kinh t? ch?nh.",
+    "T?m c?c v?ng gi?p bi?n v? n?u m?t l?i th? kinh t? bi?n.",
+    "Gi?i th?ch v? sao T?y Nguy?n m?nh v? c?y c?ng nghi?p l?u n?m.",
+    "?? xu?t m?t gi?i ph?p ph?t tri?n b?n v?ng cho ??ng b?ng s?ng C?u Long."
+  ],
+  "boundaryDataset": {
+    "name": "geoBoundaries VNM ADM1 simplified GeoJSON",
+    "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/VNM/ADM1/geoBoundaries-VNM-ADM1_simplified.geojson",
+    "localPath": "data/vietnam_adm1_geoboundaries_simplified.geojson",
+    "license": "Public Domain",
+    "boundaryYearRepresented": "2008",
+    "admUnitCount": 64,
+    "mapMethod": "ADM1 polygons matched by shapeISO and colored by economic-region grouping; not dissolved into single multipolygon per region yet"
+  }
+}

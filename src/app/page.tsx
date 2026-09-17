@@ -1,15 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   Brain,
   BookOpen,
-  Globe2,
   Map,
   GraduationCap,
   GitBranch,
   Layers,
 } from "lucide-react";
+
+// Bản đồ GIS nội bộ (Leaflet) — dynamic import để tránh lỗi SSR (Leaflet cần window)
+const MapViewer = dynamic(() => import("../components/MapViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[calc(100vh-80px)] w-full flex items-center justify-center text-sm text-gray-500">
+      Đang tải bản đồ GIS nội bộ…
+    </div>
+  ),
+});
 
 type TabId = "chat" | "dia9" | "dia8" | "map";
 
@@ -110,36 +120,40 @@ export default function HubPage() {
 
       {/* ── Content panel ── */}
       <main className="flex-1 min-h-0 relative">
-        {/* Header mô tả phân hệ */}
-        <div className="absolute top-3 left-3 right-3 z-10 pointer-events-none flex justify-center">
-          <div className="bg-white/85 backdrop-blur-md border border-gray-200 rounded-full px-4 py-1.5 text-xs text-gray-600 shadow-sm max-w-full truncate">
-            {current.description}
-          </div>
-        </div>
-
-        {current.url ? (
-          <iframe
-            key={current.id}
-            src={current.url}
-            className="portal-frame w-full h-full min-h-[calc(100vh-80px)] border-0"
-            title={current.label}
-            allow="geolocation; fullscreen; clipboard-read; clipboard-write"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-            loading="lazy"
-          />
+        {/* Tab 4 — Bản đồ GIS nội bộ (Leaflet) */}
+        {active === "map" ? (
+          <MapViewer />
         ) : (
-          <div className="h-full flex flex-col items-center justify-center gap-4 px-6 text-center">
-            <Map className="w-14 h-14 text-indigo-200" />
-            <div>
-              <h2 className="text-lg font-bold text-brand-900 mb-1">{current.label}</h2>
-              <p className="text-sm text-gray-500 max-w-md">
+          <>
+            {/* Header mô tả phân hệ */}
+            <div className="absolute top-3 left-3 right-3 z-10 pointer-events-none flex justify-center">
+              <div className="bg-white/85 backdrop-blur-md border border-gray-200 rounded-full px-4 py-1.5 text-xs text-gray-600 shadow-sm max-w-full truncate">
                 {current.description}
-              </p>
+              </div>
             </div>
-            <p className="text-xs text-gray-400">
-              Chưa cấu hình URL — điền <code className="bg-gray-100 px-1 rounded">NEXT_PUBLIC_MAP_URL</code> trên Vercel để kích hoạt.
-            </p>
-          </div>
+
+            {current.url ? (
+              <iframe
+                key={current.id}
+                src={current.url}
+                className="portal-frame w-full h-full min-h-[calc(100vh-80px)] border-0"
+                title={current.label}
+                allow="geolocation; fullscreen; clipboard-read; clipboard-write"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+                loading="lazy"
+              />
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center gap-4 px-6 text-center">
+                <Map className="w-14 h-14 text-indigo-200" />
+                <div>
+                  <h2 className="text-lg font-bold text-brand-900 mb-1">{current.label}</h2>
+                  <p className="text-sm text-gray-500 max-w-md">
+                    {current.description}
+                  </p>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </main>
 

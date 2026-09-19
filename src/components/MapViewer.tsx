@@ -154,19 +154,34 @@ const PEAKS: Peak[] = [
 interface Island {
   name: string;
   coords: [number, number];
-  note: string;
+  coordLabel: string;
+  position: string;
+  nature: string;
+  economy: string;
+  society: string;
+  defense: string;
 }
 
 const ISLANDS: Island[] = [
   {
     name: "Quần đảo Hoàng Sa",
     coords: [16.65, 112.7],
-    note: "Thuộc chủ quyền Việt Nam, nằm giữa Biển Đông, vị trí chiến lược quan trọng.",
+    coordLabel: "Khoảng 15°45'–17°15' Bắc, 111°–113° Đông",
+    position: "Nằm giữa Biển Đông, cách đất liền Việt Nam (Đà Nẵng) khoảng 170–320 km; án ngữ cửa vào vịnh Bắc Bộ và tuyến hàng hải quốc tế qua Biển Đông.",
+    nature: "Quần đảo san hô gồm nhiều đảo, cồn cát, bãi ngầm và rạn san hô; khí hậu nhiệt đới gió mùa, nắng nóng quanh năm, lượng mưa lớn theo mùa, thường chịu ảnh hưởng bão.",
+    economy: "Ngư trường giàu hải sản (cá ngừ, cá thu, tôm hùm); tiềm năng du lịch biển – sinh thái san hô; vị trí thuận lợi cho phát triển dịch vụ hàng hải và khai thác tài nguyên biển.",
+    society: "Là một bộ phận lãnh thổ thiêng liêng của Tổ quốc, gắn với đời sống và truyền thống bám biển của ngư dân Việt Nam; có ý nghĩa lớn về lịch sử, văn hóa và pháp lí chủ quyền.",
+    defense: "Có vị trí chiến lược quốc phòng – an ninh quan trọng, là tiền đồn bảo vệ chủ quyền biển đảo và an ninh tuyến hàng hải quốc tế của Việt Nam trên Biển Đông.",
   },
   {
     name: "Quần đảo Trường Sa",
     coords: [8.6, 111.9],
-    note: "Thuộc chủ quyền Việt Nam, trấn giữ vùng biển phía nam Biển Đông.",
+    coordLabel: "Khoảng 6°50'–11°30' Bắc, 111°30'–117°20' Đông",
+    position: "Nằm ở phía nam Biển Đông, cách Cam Ranh (Khánh Hòa) khoảng 450 km; là quần đảo rộng lớn, trấn giữ vùng biển phía nam và các tuyến hàng hải quan trọng.",
+    nature: "Quần đảo san hô với hàng trăm đảo, đá, bãi ngầm, cồn cát và rạn san hô; khí hậu xích đạo – nhiệt đới hải dương, nhiệt độ cao ổn định, mưa nhiều, thường xuyên có bão.",
+    economy: "Ngư trường lớn và đa dạng; tiềm năng dầu khí, khí đốt và tài nguyên biển; thuận lợi cho phát triển nghề cá xa bờ, dịch vụ hậu cần nghề cá và kinh tế biển.",
+    society: "Là địa bàn gắn bó với ngư dân Việt Nam qua nhiều thế hệ bám biển; có cộng đồng dân cư, cơ sở hạ tầng dân sự, trường học, trạm y tế và các hoạt động đời sống trên đảo.",
+    defense: "Là tuyến phòng thủ tiền tiêu phía nam của Tổ quốc, có ý nghĩa quyết định trong bảo vệ chủ quyền biển, đảo và an ninh quốc phòng trên vùng biển chiến lược Biển Đông.",
   },
 ];
 
@@ -280,8 +295,19 @@ export default function MapViewer() {
         .addTo(mountainsGroup);
     });
 
-    // ── Lớp biển đảo: hai quần đảo Hoàng Sa & Trường Sa ──
+    // ── Lớp biển đảo: hai quần đảo Hoàng Sa & Trường Sa (click mở chú thích) ──
     ISLANDS.forEach((isl) => {
+      const html = `
+        <div style="min-width:280px;max-width:340px;font-family:inherit;line-height:1.5">
+          <h3 style="margin:0 0 6px;font-size:14px;font-weight:700;color:#0f172a">${isl.name}</h3>
+          <p style="margin:0 0 4px;font-size:12px;color:#334155"><strong>Toạ độ:</strong> ${isl.coordLabel}</p>
+          <p style="margin:0 0 4px;font-size:12px;color:#334155"><strong>Vị trí địa lí:</strong> ${isl.position}</p>
+          <p style="margin:0 0 4px;font-size:12px;color:#334155"><strong>Điều kiện tự nhiên:</strong> ${isl.nature}</p>
+          <p style="margin:0 0 4px;font-size:12px;color:#334155"><strong>Vai trò kinh tế:</strong> ${isl.economy}</p>
+          <p style="margin:0 0 4px;font-size:12px;color:#334155"><strong>Vai trò xã hội:</strong> ${isl.society}</p>
+          <p style="margin:0;font-size:12px;color:#334155"><strong>An ninh quốc phòng:</strong> ${isl.defense}</p>
+        </div>`;
+
       L.circleMarker(isl.coords, {
         radius: 7,
         color: "#dc2626",
@@ -289,11 +315,7 @@ export default function MapViewer() {
         fillColor: "#ef4444",
         fillOpacity: 0.9,
       })
-        .bindTooltip(`<strong>${isl.name}</strong><br/><span style="font-size:11px">${isl.note}</span>`, {
-          sticky: true,
-          permanent: true,
-          direction: "right",
-        })
+        .bindPopup(html, { maxWidth: 360, closeButton: true })
         .addTo(islandsGroup);
     });
 

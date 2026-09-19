@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Brain, BookOpen, Map, GraduationCap } from "lucide-react";
+import { Brain, BookOpen, Map, GraduationCap, CloudSun } from "lucide-react";
 
 // Bản đồ GIS nội bộ (Leaflet) — dynamic import để tránh lỗi SSR (Leaflet cần window)
 const MapViewer = dynamic(() => import("../components/MapViewer"), {
@@ -15,6 +15,11 @@ const MapViewer = dynamic(() => import("../components/MapViewer"), {
 });
 
 type TabId = "chat" | "dia9" | "dia8" | "map";
+type MapViewId = "map" | "climate";
+
+// Windy.com embed — khí hậu thời gian thực, tập trung Việt Nam & Biển Đông
+const WINDY_URL =
+  "https://embed.windy.com/embed2.html?lat=15.5&lon=110.5&zoom=5&level=surface&overlay=temp&product=ecmwf&menu=true&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1";
 
 interface Subsystem {
   id: TabId;
@@ -52,6 +57,7 @@ const SUBSYSTEMS: Subsystem[] = [
 
 export default function HubPage() {
   const [active, setActive] = useState<TabId>("chat");
+  const [mapView, setMapView] = useState<MapViewId>("map");
   const current = SUBSYSTEMS.find((s) => s.id === active)!;
 
   return (
@@ -81,9 +87,49 @@ export default function HubPage() {
       </header>
 
       {/* ── Nội dung: nhường toàn bộ đáy cho khung chat ── */}
-      <main className="flex-1 min-h-0 relative">
+      <main className="flex-1 min-h-0 flex flex-col">
         {active === "map" ? (
-          <MapViewer />
+          <>
+            {/* Tab phụ: Bản đồ / Khí hậu thời gian thực */}
+            <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md border-b border-slate-200/60 z-10">
+              <button
+                onClick={() => setMapView("map")}
+                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  mapView === "map"
+                    ? "bg-brand-600 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                <Map className="w-4 h-4" />
+                Bản đồ
+              </button>
+              <button
+                onClick={() => setMapView("climate")}
+                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  mapView === "climate"
+                    ? "bg-brand-600 text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                <CloudSun className="w-4 h-4" />
+                Khí hậu thời gian thực
+              </button>
+            </div>
+
+            <div className="flex-1 min-h-0 relative">
+              {mapView === "map" ? (
+                <MapViewer />
+              ) : (
+                <iframe
+                  src={WINDY_URL}
+                  className="w-full h-full border-0 bg-white"
+                  title="Khí hậu thời gian thực — Windy.com"
+                  allow="fullscreen; geolocation"
+                  loading="lazy"
+                />
+              )}
+            </div>
+          </>
         ) : (
           <iframe
             key={current.id}

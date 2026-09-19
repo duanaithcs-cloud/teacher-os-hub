@@ -90,9 +90,10 @@ export default function HubPage() {
       if (tab) setActive(tab);
 
       // 2. Đồng bộ URL query params (nhẹ, không reload)
+      //    Ghi giá trị targetModule (vd 'bando') theo đúng contract, không phải TabId nội bộ.
       if (typeof window !== "undefined") {
         const url = new URL(window.location.href);
-        url.searchParams.set("tab", tab ?? targetModule);
+        url.searchParams.set("tab", targetModule);
         if (topicId) url.searchParams.set("topic", topicId);
         window.history.replaceState(null, "", url.toString());
       }

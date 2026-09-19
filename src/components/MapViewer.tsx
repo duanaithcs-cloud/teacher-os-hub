@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-type LayerId = "regions" | "rivers" | "mountains";
+type LayerId = "regions" | "rivers" | "mountains" | "islands";
 
 interface River {
   name: string;
@@ -150,6 +150,26 @@ const PEAKS: Peak[] = [
   { name: "Lang Biang", coords: [12.05, 108.45], note: "Cao nguyên Lâm Viên, Đà Lạt." },
 ];
 
+// ── Lớp biển đảo: hai quần đảo Hoàng Sa & Trường Sa ──
+interface Island {
+  name: string;
+  coords: [number, number];
+  note: string;
+}
+
+const ISLANDS: Island[] = [
+  {
+    name: "Quần đảo Hoàng Sa",
+    coords: [16.65, 112.7],
+    note: "Thuộc chủ quyền Việt Nam, nằm giữa Biển Đông, vị trí chiến lược quan trọng.",
+  },
+  {
+    name: "Quần đảo Trường Sa",
+    coords: [8.6, 111.9],
+    note: "Thuộc chủ quyền Việt Nam, trấn giữ vùng biển phía nam Biển Đông.",
+  },
+];
+
 // ── Lớp các dãy núi / vùng núi đặc trưng (đường định hướng gần đúng) ──
 const RANGES: Range[] = [
   { name: "Hoàng Liên Sơn", coords: [[22.95, 103.05], [22.3, 103.8], [21.6, 104.3]], note: "Tây Bắc, hướng tây bắc – đông nam." },
@@ -163,6 +183,7 @@ const LAYER_META: { id: LayerId; label: string; short: string }[] = [
   { id: "regions", label: "Vùng kinh tế", short: "Vùng" },
   { id: "rivers", label: "Sông ngòi", short: "Sông" },
   { id: "mountains", label: "Núi & đỉnh núi", short: "Núi" },
+  { id: "islands", label: "Biển đảo", short: "Đảo" },
 ];
 
 export default function MapViewer() {
@@ -171,11 +192,13 @@ export default function MapViewer() {
   const regionsRef = useRef<L.LayerGroup | null>(null);
   const riversRef = useRef<L.LayerGroup | null>(null);
   const mountainsRef = useRef<L.LayerGroup | null>(null);
+  const islandsRef = useRef<L.LayerGroup | null>(null);
 
   const [layers, setLayers] = useState<Record<LayerId, boolean>>({
     regions: true,
     rivers: true,
     mountains: true,
+    islands: true,
   });
 
   // Khởi tạo bản đồ một lần duy nhất (chỉ chạy client-side)
@@ -201,11 +224,22 @@ export default function MapViewer() {
     const regionsGroup = L.layerGroup().addTo(map);
     const riversGroup = L.layerGroup().addTo(map);
     const mountainsGroup = L.layerGroup().addTo(map);
+    const islandsGroup = L.layerGroup().addTo(map);
+
+    // Bao trọn lãnh thổ + hai quần đảo ngoài Biển Đông
+    map.fitBounds(
+      [
+        [8.0, 102.0],
+        [23.5, 113.5],
+      ],
+      { padding: [16, 16] },
+    );
 
     mapRef.current = map;
     regionsRef.current = regionsGroup;
     riversRef.current = riversGroup;
     mountainsRef.current = mountainsGroup;
+    islandsRef.current = islandsGroup;
 
     // ── Lớp sông ngòi chính ──
     RIVERS.forEach((river) => {
@@ -244,6 +278,23 @@ export default function MapViewer() {
           sticky: true,
         })
         .addTo(mountainsGroup);
+    });
+
+    // ── Lớp biển đảo: hai quần đảo Hoàng Sa & Trường Sa ──
+    ISLANDS.forEach((isl) => {
+      L.circleMarker(isl.coords, {
+        radius: 7,
+        color: "#dc2626",
+        weight: 2,
+        fillColor: "#ef4444",
+        fillOpacity: 0.9,
+      })
+        .bindTooltip(`<strong>${isl.name}</strong><br/><span style="font-size:11px">${isl.note}</span>`, {
+          sticky: true,
+          permanent: true,
+          direction: "right",
+        })
+        .addTo(islandsGroup);
     });
 
     // ── Lớp ranh giới 6 vùng kinh tế (tô màu ADM1 theo nhóm vùng) ──
@@ -310,6 +361,7 @@ export default function MapViewer() {
       regionsRef.current = null;
       riversRef.current = null;
       mountainsRef.current = null;
+      islandsRef.current = null;
     };
   }, []);
 
@@ -321,6 +373,7 @@ export default function MapViewer() {
       regions: regionsRef.current,
       rivers: riversRef.current,
       mountains: mountainsRef.current,
+      islands: islandsRef.current,
     };
     (Object.keys(groups) as LayerId[]).forEach((id) => {
       const g = groups[id];
@@ -369,6 +422,7 @@ export default function MapViewer() {
         <p>🟦 Ranh giới &amp; trọng tâm 6 vùng kinh tế</p>
         <p>🟧 Đỉnh núi (chấm) · dãy núi (đứt nét)</p>
         <p>🔵 Mạng lưới sông ngòi chính</p>
+        <p>🔴 Biển đảo: Hoàng Sa &amp; Trường Sa</p>
         <p className="text-[10px] text-gray-400">Nền: Esri World Topo Map · Ranh giới ADM1 geoBoundaries (2008, cần rà soát 2025)</p>
       </div>
     </div>

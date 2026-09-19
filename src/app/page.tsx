@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { Brain, BookOpen, Map, GraduationCap, Layers } from "lucide-react";
+import { Brain, BookOpen, Map, GraduationCap } from "lucide-react";
 
 // Bản đồ GIS nội bộ (Leaflet) — dynamic import để tránh lỗi SSR (Leaflet cần window)
 const MapViewer = dynamic(() => import("../components/MapViewer"), {
@@ -56,18 +56,9 @@ export default function HubPage() {
 
   return (
     <div className="flex flex-col h-[100dvh] overflow-hidden bg-slate-50">
-      {/* ── Header: 2 dòng, cố định, không đè nội dung ── */}
+      {/* ── Header: 1 dòng segmented control, cố định ── */}
       <header className="sticky top-0 z-40 shrink-0 bg-white/80 backdrop-blur-md border-b border-slate-200/60 pt-[env(safe-area-inset-top,0px)]">
-        {/* Dòng 1: logo + tên + trạng thái */}
-        <div className="flex items-center gap-2 px-3 h-12">
-          <div className="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center shrink-0">
-            <Layers className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-semibold text-slate-900 text-[15px] truncate">Teacher OS</span>
-        </div>
-
-        {/* Dòng 2: segmented control, vuốt ngang */}
-        <nav className="no-scrollbar overflow-x-auto flex gap-2 px-3 pb-2 text-sm font-medium">
+        <nav className="no-scrollbar overflow-x-auto flex gap-2 px-3 py-2.5 text-sm font-medium">
           {SUBSYSTEMS.map((s) => {
             const Icon = s.icon;
             const isActive = s.id === active;

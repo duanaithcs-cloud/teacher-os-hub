@@ -201,13 +201,22 @@ const LAYER_META: { id: LayerId; label: string; short: string }[] = [
   { id: "islands", label: "Biển đảo", short: "Đảo" },
 ];
 
-export default function MapViewer() {
+const OSM_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const CARTO_TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+
+interface MapViewerProps {
+  isActive?: boolean;
+}
+
+export default function MapViewer({ isActive = true }: MapViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const fallbackAppliedRef = useRef(false);
   const regionsRef = useRef<L.LayerGroup | null>(null);
   const riversRef = useRef<L.LayerGroup | null>(null);
   const mountainsRef = useRef<L.LayerGroup | null>(null);
   const islandsRef = useRef<L.LayerGroup | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const [layers, setLayers] = useState<Record<LayerId, boolean>>({
     regions: true,
@@ -226,29 +235,37 @@ export default function MapViewer() {
       zoomControl: true,
     });
 
-    // ── Nền địa hình tự nhiên: Esri World Topo Map ──
-    L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
-      {
-        attribution:
-          'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Esri, DeLorme, NAVTEQ',
-        maxZoom: 19,
-      },
-    ).addTo(map);
+    const cartoLayer = L.tileLayer(CARTO_TILE_URL, {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 20,
+      subdomains: "abcd",
+    });
+
+    const osmLayer = L.tileLayer(OSM_TILE_URL, {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    osmLayer.on("tileerror", () => {
+      if (fallbackAppliedRef.current) return;
+      fallbackAppliedRef.current = true;
+      console.warn("[MapViewer] OSM tile unavailable, switching to CartoDB Positron fallback.");
+      setNotice("Nguồn nền OSM không tải được, đã chuyển sang CartoDB Positron.");
+      map.removeLayer(osmLayer);
+      cartoLayer.addTo(map);
+    });
 
     const regionsGroup = L.layerGroup().addTo(map);
     const riversGroup = L.layerGroup().addTo(map);
     const mountainsGroup = L.layerGroup().addTo(map);
     const islandsGroup = L.layerGroup().addTo(map);
 
-    // Bao trọn lãnh thổ + hai quần đảo ngoài Biển Đông
-    map.fitBounds(
-      [
-        [8.0, 102.0],
-        [23.5, 113.5],
-      ],
-      { padding: [16, 16] },
-    );
+    window.setTimeout(() => {
+      map.invalidateSize();
+      map.setView([16.0, 107.5], 6);
+    }, 200);
 
     mapRef.current = map;
     regionsRef.current = regionsGroup;
@@ -326,6 +343,12 @@ export default function MapViewer() {
           fetch("/data/regions.json"),
           fetch("/data/vietnam_adm1.geojson"),
         ]);
+        if (!regionsRes.ok) {
+          throw new Error(`regions.json ${regionsRes.status} ${regionsRes.statusText}`);
+        }
+        if (!geoRes.ok) {
+          throw new Error(`vietnam_adm1.geojson ${geoRes.status} ${geoRes.statusText}`);
+        }
         const regions = await regionsRes.json();
         const geo = await geoRes.json();
 
@@ -374,6 +397,7 @@ export default function MapViewer() {
         });
       } catch (err) {
         console.error("[MapViewer] Lỗi nạp dữ liệu vùng kinh tế:", err);
+        setNotice("Không tải được lớp ranh giới vùng kinh tế. Các lớp sông, núi và biển đảo vẫn hoạt động.");
       }
     })();
 
@@ -386,6 +410,15 @@ export default function MapViewer() {
       islandsRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!isActive || !mapRef.current) return;
+    const timer = window.setTimeout(() => {
+      mapRef.current?.invalidateSize();
+      mapRef.current?.setView([16.0, 107.5], 6);
+    }, 200);
+    return () => window.clearTimeout(timer);
+  }, [isActive]);
 
   // Áp dụng trạng thái bật/tắt các lớp
   useEffect(() => {
@@ -413,7 +446,7 @@ export default function MapViewer() {
 
   return (
     <div className="relative h-full w-full min-h-[480px]">
-      <div ref={containerRef} className="absolute inset-0 z-0" />
+      <div id="map" ref={containerRef} className="absolute inset-0 z-0 h-full w-full" />
 
       {/* Thanh công cụ toggle lớp */}
       <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[500] flex gap-1 bg-white/90 backdrop-blur-md border border-gray-200 rounded-full px-1.5 py-1 shadow-sm">
@@ -445,8 +478,14 @@ export default function MapViewer() {
         <p>🟧 Đỉnh núi (chấm) · dãy núi (đứt nét)</p>
         <p>🔵 Mạng lưới sông ngòi chính</p>
         <p>🔴 Biển đảo: Hoàng Sa &amp; Trường Sa</p>
-        <p className="text-[10px] text-gray-400">Nền: Esri World Topo Map · Ranh giới ADM1 geoBoundaries (2008, cần rà soát 2025)</p>
+        <p className="text-[10px] text-gray-400">Nền: OpenStreetMap · fallback CartoDB Positron · Ranh giới ADM1 geoBoundaries (2008, cần rà soát 2025)</p>
       </div>
+
+      {notice && (
+        <div className="absolute top-16 left-1/2 z-[500] max-w-[320px] -translate-x-1/2 rounded-xl border border-amber-200 bg-amber-50/95 px-3 py-2 text-xs font-medium text-amber-800 shadow-sm backdrop-blur-md">
+          {notice}
+        </div>
+      )}
     </div>
   );
 }

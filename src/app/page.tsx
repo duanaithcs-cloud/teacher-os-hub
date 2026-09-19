@@ -215,9 +215,9 @@ export default function HubPage() {
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 relative" data-module="bando">
+          <div className="flex-1 min-h-0 relative h-full w-full" data-module="bando">
             {mapView === "map" ? (
-              <MapViewer />
+              <MapViewer isActive={active === "map" && mapView === "map"} />
             ) : (
               <iframe
                 src={WINDY_URL}

@@ -66,7 +66,13 @@ const SUBSYSTEMS: Subsystem[] = [
 export default function HubPage() {
   const [active, setActive] = useState<TabId>("chat");
   const [mapView, setMapView] = useState<MapViewId>("map");
-  const current = SUBSYSTEMS.find((s) => s.id === active)!;
+
+  // URL các phân hệ iframe (keep-alive: không remount khi đổi tab)
+  const iframeUrls = {
+    chat: SUBSYSTEMS.find((s) => s.id === "chat")!.url,
+    dia9: SUBSYSTEMS.find((s) => s.id === "dia9")!.url,
+    dia8: SUBSYSTEMS.find((s) => s.id === "dia8")!.url,
+  };
 
   // ── Central Event Bus: lắng nghe & định tuyến sự kiện mesh từ Chat Expert ──
   useEffect(() => {
@@ -139,62 +145,88 @@ export default function HubPage() {
         </nav>
       </header>
 
-      {/* ── Nội dung: nhường toàn bộ đáy cho khung chat ── */}
-      <main className="flex-1 min-h-0 flex flex-col">
-        {active === "map" ? (
-          <>
-            {/* Tab phụ: Bản đồ / Khí hậu thời gian thực */}
-            <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md border-b border-slate-200/60 z-10">
-              <button
-                onClick={() => setMapView("map")}
-                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                  mapView === "map"
-                    ? "bg-brand-600 text-white"
-                    : "text-slate-600 hover:bg-slate-100"
-                }`}
-              >
-                <Map className="w-4 h-4" />
-                Bản đồ
-              </button>
-              <button
-                onClick={() => setMapView("climate")}
-                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                  mapView === "climate"
-                    ? "bg-brand-600 text-white"
-                    : "text-slate-600 hover:bg-slate-100"
-                }`}
-              >
-                <CloudSun className="w-4 h-4" />
-                Khí hậu thời gian thực
-              </button>
-            </div>
-
-            <div className="flex-1 min-h-0 relative" data-module="bando">
-              {mapView === "map" ? (
-                <MapViewer />
-              ) : (
-                <iframe
-                  src={WINDY_URL}
-                  className="w-full h-full border-0 bg-white"
-                  title="Khí hậu thời gian thực — Windy.com"
-                  allow="fullscreen; geolocation"
-                  loading="lazy"
-                />
-              )}
-            </div>
-          </>
-        ) : (
+      {/* ── Nội dung: keep-alive — render đồng thời các tab, ẩn/hiện bằng CSS ── */}
+      <main className="flex-1 min-h-0 relative">
+        {/* Tab Trợ lý (keep-alive: giữ nguyên lịch sử chat) */}
+        <div className={`h-full w-full ${active === "chat" ? "block" : "hidden"}`}>
           <iframe
-            key={current.id}
-            src={current.url}
-            data-module={current.id}
+            id="iframe-chat"
+            data-module="chat"
+            src={iframeUrls.chat}
             className="w-full h-full border-0 bg-white"
-            title={current.shortLabel}
+            title="Trợ lý"
             allow="geolocation; fullscreen; clipboard-read; clipboard-write"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-            loading="lazy"
           />
-        )}
+        </div>
+
+        {/* Tab Địa 9 */}
+        <div className={`h-full w-full ${active === "dia9" ? "block" : "hidden"}`}>
+          <iframe
+            id="iframe-dia9"
+            data-module="dia9"
+            src={iframeUrls.dia9}
+            className="w-full h-full border-0 bg-white"
+            title="Địa 9"
+            allow="geolocation; fullscreen; clipboard-read; clipboard-write"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+          />
+        </div>
+
+        {/* Tab Địa 8 */}
+        <div className={`h-full w-full ${active === "dia8" ? "block" : "hidden"}`}>
+          <iframe
+            id="iframe-dia8"
+            data-module="dia8"
+            src={iframeUrls.dia8}
+            className="w-full h-full border-0 bg-white"
+            title="Địa 8"
+            allow="geolocation; fullscreen; clipboard-read; clipboard-write"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+          />
+        </div>
+
+        {/* Tab Bản đồ */}
+        <div className={`h-full w-full ${active === "map" ? "flex flex-col" : "hidden"}`}>
+          {/* Tab phụ: Bản đồ / Khí hậu thời gian thực */}
+          <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md border-b border-slate-200/60 z-10">
+            <button
+              onClick={() => setMapView("map")}
+              className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                mapView === "map"
+                  ? "bg-brand-600 text-white"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              <Map className="w-4 h-4" />
+              Bản đồ
+            </button>
+            <button
+              onClick={() => setMapView("climate")}
+              className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                mapView === "climate"
+                  ? "bg-brand-600 text-white"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
+            >
+              <CloudSun className="w-4 h-4" />
+              Khí hậu thời gian thực
+            </button>
+          </div>
+
+          <div className="flex-1 min-h-0 relative" data-module="bando">
+            {mapView === "map" ? (
+              <MapViewer />
+            ) : (
+              <iframe
+                src={WINDY_URL}
+                className="w-full h-full border-0 bg-white"
+                title="Khí hậu thời gian thực — Windy.com"
+                allow="fullscreen; geolocation"
+              />
+            )}
+          </div>
+        </div>
       </main>
     </div>
   );

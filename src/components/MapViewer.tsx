@@ -202,7 +202,8 @@ const LAYER_META: { id: LayerId; label: string; short: string }[] = [
 ];
 
 const OSM_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const CARTO_TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+const ESRI_STREET_TILE_URL =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}";
 
 interface MapViewerProps {
   isActive?: boolean;
@@ -235,11 +236,9 @@ export default function MapViewer({ isActive = true }: MapViewerProps) {
       zoomControl: true,
     });
 
-    const cartoLayer = L.tileLayer(CARTO_TILE_URL, {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      maxZoom: 20,
-      subdomains: "abcd",
+    const esriStreetLayer = L.tileLayer(ESRI_STREET_TILE_URL, {
+      attribution: 'Tiles &copy; <a href="https://www.esri.com/">Esri</a>',
+      maxZoom: 19,
     });
 
     const osmLayer = L.tileLayer(OSM_TILE_URL, {
@@ -251,10 +250,10 @@ export default function MapViewer({ isActive = true }: MapViewerProps) {
     osmLayer.on("tileerror", () => {
       if (fallbackAppliedRef.current) return;
       fallbackAppliedRef.current = true;
-      console.warn("[MapViewer] OSM tile unavailable, switching to CartoDB Positron fallback.");
-      setNotice("Nguồn nền OSM không tải được, đã chuyển sang CartoDB Positron.");
+      console.warn("[MapViewer] OSM tile unavailable, switching to Esri World Street Map fallback.");
+      setNotice("Nguồn nền OSM không tải được, đã chuyển sang Esri World Street Map.");
       map.removeLayer(osmLayer);
-      cartoLayer.addTo(map);
+      esriStreetLayer.addTo(map);
     });
 
     const regionsGroup = L.layerGroup().addTo(map);
@@ -478,7 +477,7 @@ export default function MapViewer({ isActive = true }: MapViewerProps) {
         <p>🟧 Đỉnh núi (chấm) · dãy núi (đứt nét)</p>
         <p>🔵 Mạng lưới sông ngòi chính</p>
         <p>🔴 Biển đảo: Hoàng Sa &amp; Trường Sa</p>
-        <p className="text-[10px] text-gray-400">Nền: OpenStreetMap · fallback CartoDB Positron · Ranh giới ADM1 geoBoundaries (2008, cần rà soát 2025)</p>
+        <p className="text-[10px] text-gray-400">Nền: OpenStreetMap · fallback Esri World Street Map · Ranh giới ADM1 geoBoundaries (2008, cần rà soát 2025)</p>
       </div>
 
       {notice && (

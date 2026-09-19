@@ -26,7 +26,7 @@ interface Subsystem {
 const SUBSYSTEMS: Subsystem[] = [
   {
     id: "chat",
-    shortLabel: "Trợ lý HSG",
+    shortLabel: "Trợ lý",
     icon: Brain,
     url: process.env.NEXT_PUBLIC_CHAT_EXPERT_URL ?? "https://teacher-os-chat-expert.vercel.app",
   },
@@ -64,10 +64,6 @@ export default function HubPage() {
             <Layers className="w-4 h-4 text-white" />
           </div>
           <span className="font-semibold text-slate-900 text-[15px] truncate">Teacher OS</span>
-          <div className="flex-1" />
-          <span className="shrink-0 text-[11px] font-medium text-slate-500 bg-slate-100 rounded-full px-2.5 py-1 whitespace-nowrap">
-            {current.shortLabel}
-          </span>
         </div>
 
         {/* Dòng 2: segmented control, vuốt ngang */}

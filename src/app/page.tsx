@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Brain, BookOpen, Map, GraduationCap, CloudSun } from "lucide-react";
+import type { MeshEventMessage, MeshModuleType } from "@/types/meshContract";
 
 // Bản đồ GIS nội bộ (Leaflet) — dynamic import để tránh lỗi SSR (Leaflet cần window)
 const MapViewer = dynamic(() => import("../components/MapViewer"), {
@@ -16,6 +17,13 @@ const MapViewer = dynamic(() => import("../components/MapViewer"), {
 
 type TabId = "chat" | "dia9" | "dia8" | "map";
 type MapViewId = "map" | "climate";
+
+// Ánh xạ module mesh (contract) → tab hiển thị của Hub
+const MODULE_TO_TAB: Partial<Record<MeshModuleType, TabId>> = {
+  dia8: "dia8",
+  dia9: "dia9",
+  bando: "map",
+};
 
 // Windy.com embed — khí hậu thời gian thực, tập trung Việt Nam & Biển Đông
 const WINDY_URL =
@@ -59,6 +67,51 @@ export default function HubPage() {
   const [active, setActive] = useState<TabId>("chat");
   const [mapView, setMapView] = useState<MapViewId>("map");
   const current = SUBSYSTEMS.find((s) => s.id === active)!;
+
+  // ── Central Event Bus: lắng nghe & định tuyến sự kiện mesh từ Chat Expert ──
+  useEffect(() => {
+    const handleMeshMessage = (event: MessageEvent) => {
+      const data = event.data as MeshEventMessage | undefined;
+      if (!data || data.protocol !== "TEACHER_OS_MESH_V1") return;
+
+      const { event: eventType, payload } = data;
+      if (eventType !== "NAVIGATE_TOPIC" && eventType !== "REQUEST_ASSESSMENT") return;
+
+      const { targetModule, topicId } = payload;
+
+      // 1. Chuyển tab active sang module tương ứng
+      const tab = MODULE_TO_TAB[targetModule];
+      if (tab) setActive(tab);
+
+      // 2. Đồng bộ URL query params (nhẹ, không reload)
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.set("tab", tab ?? targetModule);
+        if (topicId) url.searchParams.set("topic", topicId);
+        window.history.replaceState(null, "", url.toString());
+      }
+
+      // 3. Chuyển tiếp tín hiệu sang iframe đích (nếu đã render)
+      window.setTimeout(() => {
+        const targetIframe = document.querySelector(
+          `iframe[data-module="${targetModule}"]`,
+        ) as HTMLIFrameElement | null;
+        if (targetIframe?.contentWindow) {
+          targetIframe.contentWindow.postMessage(
+            {
+              protocol: "TEACHER_OS_MESH_V1",
+              event: "CONSUME_TOPIC_FOCUS",
+              payload,
+            },
+            "*",
+          );
+        }
+      }, 250);
+    };
+
+    window.addEventListener("message", handleMeshMessage);
+    return () => window.removeEventListener("message", handleMeshMessage);
+  }, []);
 
   return (
     <div className="flex flex-col h-[100dvh] overflow-hidden bg-slate-50">
@@ -116,7 +169,7 @@ export default function HubPage() {
               </button>
             </div>
 
-            <div className="flex-1 min-h-0 relative">
+            <div className="flex-1 min-h-0 relative" data-module="bando">
               {mapView === "map" ? (
                 <MapViewer />
               ) : (
@@ -134,6 +187,7 @@ export default function HubPage() {
           <iframe
             key={current.id}
             src={current.url}
+            data-module={current.id}
             className="w-full h-full border-0 bg-white"
             title={current.shortLabel}
             allow="geolocation; fullscreen; clipboard-read; clipboard-write"
